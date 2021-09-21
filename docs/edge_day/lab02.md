@@ -33,8 +33,8 @@ Lab Guide
 &ensp;&ensp;&ensp;&ensp;S3 桶
 
 
-#### Lab – WAF动手实验<span id = "Lab"></span>
-介绍
+### Lab – WAF动手实验<span id = "Lab"></span>
+#### 介绍
 
 现在让我们来动手做一下WAF的实验
 本实验中，我们将介绍 WAF的核心概念 (WAFV2)。
@@ -102,17 +102,17 @@ JUICESHOP_URL=<Your JuiceShopUrl CloudFormation Output>
 这个实验是基于一系列的挑战。每一个挑战将会需要你来了解WAF的新概念。
 使用AWS WAF documentation 来帮助你！
 
-Web ACLs和托管的Rules.
+### Web ACLs和托管的Rules.
 
-介绍
+#### 介绍
 
-Web ACLs
+##### Web ACLs
 
 一个web ACL (Web Access Control List) 是亚马逊云科技WAF的核心资源。他包含评估每个收到请求的原则(rules)。一个web ACL 使用CloudFront发布点、API网关或者应用负载均衡器关联你的网页应用程序。
 
 这个实验使用最新版本的WAF,请确认你没有使用经典WAF (WAF Classic).
 
-托管规则
+##### 托管规则
 
 最快的方法来开始使用WAF是在WebACL里部署托管规则组(Managed Rule Group for WAF)
 托管规则组是一组WAF规则，由亚马逊云科技或者亚马逊市场里的第三方厂商创建和维护。这些规则提供了对常见攻击的保护。或者针对特定应用类型的攻击。
@@ -125,7 +125,7 @@ Web ACLs
 
 #### 任务 - WAF的核心概念<span id = "Step3"></span>
 
-A部分
+##### A部分
 
 你是初创公司果汁店唯一的研发人员。你的网页是一个简单的使用SQL数据库的网页程序。由于某些原因，一组抢劫奶昔的黑客开始了对你站点的攻击。幸运的是，你最近参加了一个亚马逊云科技的WAF培训。你决定部署你自己的WAF来保护你的站点。
 
@@ -137,7 +137,7 @@ A部分
 
 2.  关联 web ACL 到你站点的 CloudFront 分发点。
 
-A部分答案
+##### A部分答案
 
 1.    浏览到AWS WAF 控制面板
 2.    选择create web ACL
@@ -157,7 +157,7 @@ A部分答案
     1. web ACL的资源类型(Resource type)设置成为了CloudFront发布点。
     2. CloudFormation 模板已经被成功部署了。
 
-#### B部分
+##### B部分
 
 你没有太多时间，所以你决定在你的WebACL里部署两个托管规则组。这将保护你的网站不受奶昔黑客发起的常见攻击的影响。
 
@@ -166,7 +166,7 @@ A部分答案
     1. 增加Core Rule Set ，这个规则组可以防止针对网页应用的常见漏洞的攻击。
     2. 增加SQL database规则组，这个规则组可以保护SQL数据库免受SQL数据库相关的漏洞利用攻击-例如SQL注入。
 
-测试案例
+##### 测试案例
 
 使用下列命令测试你的新规则。
 确保JUICESHOP_URL变量包含Juice Shop部署完毕时提供的URL.
@@ -218,7 +218,7 @@ curl -X POST $JUICESHOP_URL -F "user='AND 1=1;"
 - 你的web ACL是否包含了两个激活状态的规则 – Core Rule Set和Sql database?
   - 如果托管原则没有激活，则没有规则会在web ACL里阻断请求。
 
-#### B部分答案 
+##### B部分答案 
 
 1.  点击进入你的web ACL的Rule 页面
 2.  选择Add Rules > Add Managed Rule Groups
@@ -232,8 +232,10 @@ curl -X POST $JUICESHOP_URL -F "user='AND 1=1;"
 
 本部分我们介绍了亚马逊云科WAF的托管规则。托管规则组允许你快速保护你的应用免受各种常见攻击的侵害。并且可以很方便的从亚马逊云科技和亚马逊云科技市场的合作供应商那里获得。
 
-#### 定制规则
-##### 介绍
+
+
+### 定制规则
+#### 介绍
 WAF允许你创建自己的规则(create your own rules)来处理请求。这可以为您的应用增加与应用相关的逻辑。关于定制规则，本部分将介绍请求采样（request sampling） 和Web ACL容量单元(Web ACL Capacity Units).
 
 最简单的创建定制规则的方法是使用WAF控制面板的编辑器。
@@ -250,7 +252,7 @@ WAF允许你创建自己的规则(create your own rules)来处理请求。这可
 
 基于被检查的组成部分，您可以阻断或允许一个请求。
 
-#### 请求采样
+##### 请求采样
 
 WAF允许您观察一个经由WAF处理的请求的采样。可以通过Web ACL的仪表板看到。
 
@@ -259,7 +261,7 @@ WAF允许您观察一个经由WAF处理的请求的采样。可以通过Web ACL�
 这对于快速的判断来收到了哪些请求并且是如何被处理的很有用。
 把所有的Web ACL 收到的请求都记录下来也是可做的。这部分我们后面会介绍。
 
-Web ACL容量单元 (Capacity Units)
+##### Web ACL容量单元 (Capacity Units)
 
 您在我们创建部署前两个托管规则的时候，您可能已经注意到有WCU或Web ACL容量单元的概念。WAF使用WCU来计算一个规则的运营开销。简单的规则比复杂的规则使用更少的WCU。
 
@@ -267,7 +269,7 @@ Web ACL容量单元 (Capacity Units)
 
 关于WCU的更多信息。
 
-挑战
+#### 挑战任务
 
 正如你所想到的，您击败了抢劫奶昔的黑客以后，更多的而已请求开始针对您的应用。攻击变得更有针对性。你认识到你可以使用Web ACL的定制规则来阻断这些攻击。
 
@@ -283,7 +285,7 @@ Web ACL容量单元 (Capacity Units)
   - 这个而已请求包含一个特定的头部
   - 这个请求头的赋值字符串的长度是多少？
 
-##### 测试用例
+#### 测试用例
 
 这个测试用例会发送一个请求到您的测试应用。如果这个WAF规则是工作的，你的请求应当被阻断，你会收到一个类似下面的403的响应。
 
@@ -346,14 +348,14 @@ curl -H "X-TomatoAttack: Green" "${JUICESHOP_URL}"
 
 JSON中的规则
 
-高级的定制规则
+##### 高级的定制规则
 
 所有的WAF 规则都是被JSON对象定义的。对于复杂的规则，我们可以更有效的直接通过规则编辑器使用JSON格式来编辑。你可以通过API,CLI或网页控制台，获得已有规则的JSON格式。使用的命令是get-rule-group。使用你熟悉的JSON文本编辑器，并重新使用update-rule-group把他们上传。
 
 在JSON文件里定义规则允许你去使用版本控制来了解复杂的规则组是怎样在什么时候被更改的。
 使用JSON定义规则的语法在 update-rule-group 文档里可以找到。如果你不确定JSON语法，可以在可视化编辑器里创建一个简单的例子，然后切换到JSON编辑器来看对等的JSON配置。
 
-规则中的布尔逻辑
+##### 规则中的布尔逻辑
 
 AND, OR和NOT运算操作可以被用来创造更复杂的规则。在检查请求的多个部分时这是有用的。例如，你可以让在查询字符串或请求头包含一个特定的键/值时，才允许这个请求。
 嵌套的规则可以使用可视化编辑器创建。然而，他们被限定只能有一级的深度。为了创建任意的嵌入式规则，只能使用JSON编辑器。可以使用验证(validate)动作在JSON编辑器里验证规则。
@@ -602,7 +604,7 @@ curl  "${JUICESHOP_URL}?milkshake=banana&favourite-topping=sauce"
 </html>
 ```
 
-##### 答案
+#### 答案
 
 ```json
 {
@@ -705,7 +707,7 @@ curl  "${JUICESHOP_URL}?milkshake=banana&favourite-topping=sauce"
 }
 ```
 
-##### 结论
+#### 结论
 
 在本部分，您学习了JSON格式的WAF规则。使用AND,OR,NOT运算符可以在规则中定义复杂的逻辑。
 
@@ -944,7 +946,7 @@ curl -H "x-milkshake: chocolate" "${JUICESHOP_URL}"
 
 WAF允许你取抓取请求日志并存储在任意Kinesis Data Firehose的目的地。日志可以提供请求的信息。日志也提供关于请求的执行动作和匹配规则的信息。这个信息当运行WAF时很有价值。使用字段模糊化防止日志包含敏感信息。
 
-#### 清理环境
+### 清理环境
 
 你赢了！感谢你，果汁店继续得到发展。而抢劫奶昔的黑客返回了他们的总部。
 
@@ -959,24 +961,24 @@ WAF允许你取抓取请求日志并存储在任意Kinesis Data Firehose的目�
 
 下面是删除这些资源的步骤
 
-##### 样例网页应用
+#### 样例网页应用
 
 样例网页应用在CloudFromation栈中定义。名字为WAFWorkshopSampleWebApp 。
 按照Deleting a CloudFormation Stack的步骤删除堆栈。
 WAFWorkshopSampleWebApp 是一个嵌套式的堆栈。通过删除顶级的堆栈，嵌套的堆栈也将被删除。
 
-##### WAF web ACL 
+#### WAF web ACL 
 
 按照下面步骤删除Web ACL Deleting a Web ACL.
 https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-deleting.html
 
-##### Kinesis Data Firehose 
+#### Kinesis Data Firehose 
 
 1. 浏览到Kinesis 控制面板
 2. 选择Data Firehose页面。如果你不能看到这个资源，确认下你的区域是否正确。这个资源应该在us-east-1里。这可能会与Web App部署的区域不同。
 3. 删除您之前创建的Data Firehose。它将带有aws-waf-logs-workshop-的前缀。
 
-##### S3 桶 
+#### S3 桶 
 
 1. 浏览到S3控制面板
 2. 选择作为Kinesis Data Firehose 输出目的地的S3桶。输出文件会带有aws-waf-logs-workshop-前缀。如果你看不到这个资源，请注意检查所在区域是否正确。这个资源应当在us-east-1.它有可能和您的Web App所在区域不同。
