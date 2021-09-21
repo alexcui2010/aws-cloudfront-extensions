@@ -3,37 +3,37 @@ Lab Guide
 
 ---
 目录
-- [Lab - 构建CloudFront加速的网站](https://docs.microsoft.com/zh-cn/azure/) :
+- [Lab - 构建CloudFront加速的网站](#Lab) 
 
-- [Step1: 创建 EC2和S3 源站](https://docs.microsoft.com/zh-cn/learn/) : 
+- [Step1: 创建 EC2和S3 源站](#Step1)
 在S3桶中创建index.html
 验证 EC2 部署情况
 
-- [Step2: 创建一个CloudFront Distribution](https://azure.microsoft.com/zh-cn/solutions/) 
+- [Step2: 创建一个CloudFront Distribution](#Step2) 
 添加EC2 源
 
-- [Step3: 测试通过CloudFront发布的应用](https://microsoftcloudworkshop.com/) : 针对不同的workload, 模拟业务场景, 帮助大家了解基于不同业务场景下的架构设计, 以及动手实践
+- [Step3: 测试通过CloudFront发布的应用](#Step3)
 
-- [Step4: 测试Invalidations](https://microsoftapc.sharepoint.com/:b:/t/OCPPRCPTSTeam/EbM6PUPPSgtIhHsjD7dSBpABq8BKHnd7KVHfb_YKu4SWnQ?e=M5l9S7) 
+- [Step4: 测试Invalidations](#Step4)
 
-- [Step5: 配置定制错误页面](https://microsoftapc.sharepoint.com/:b:/t/OCPPRCPTSTeam/EbM6PUPPSgtIhHsjD7dSBpABq8BKHnd7KVHfb_YKu4SWnQ?e=M5l9S7) 
+- [Step5: 配置定制错误页面](#Step5)
 制作一个定制错误页面
 在CloudFront里配置定制错误页面
 
-- [Step6: 配置源站组(Origin Group)](https://microsoftapc.sharepoint.com/:b:/t/OCPPRCPTSTeam/EbM6PUPPSgtIhHsjD7dSBpABq8BKHnd7KVHfb_YKu4SWnQ?e=M5l9S7) 
+- [Step6: 配置源站组(Origin Group)](#Step6)
 在CloudFront中配置源站组
 测试
-- [Step7: 结论](https://azure.microsoft.com/zh-cn/solutions/) 
+- [Step7: 结论](#Step7)
 
 
-#### Lab - 构建CloudFront加速的网站
+#### Lab - 构建CloudFront加速的网站<span id = "Lab"></span>
 介绍
 
 本实验中，我们将学习如何设置一个CloudFront distribution作为一个简单的包含动静态Web应用的前端。Web应用使用S3和EC2搭建，具体如下图。我们将学习如何测试并检查CloudFront送出的特定请求头。最后，我们将会把发布的内容无效化处理，并配置定制的报错页面，以保证友好的失效网页体验。
 
 ![image](./lab01/image001.jpg)
 
-#### Step1: 创建 EC2和S3 源站
+#### Step1: 创建 EC2和S3 源站<span id = "Step1"></span>
 
 在本部分实验中，我们将使用准备好的CloudFormation 模板创建S3和EC2的源站
 
@@ -118,7 +118,7 @@ app.listen(8080, function () {
 
 ![image](./lab01/image010.jpg)
 
-#### Step2: 创建一个CloudFront Distribution
+#### Step2: 创建一个CloudFront Distribution<span id = "Step2"></span>
 
 1 – 到AWS Console的CloudFront页面创建一个新的distribution. 如果我们第一次使用CloudFront, 需要在”Getting Started”一面创建Distribution. 否则，我们可以直接创建一个 Web distribution.
 
@@ -181,7 +181,7 @@ Cache层.
 
 ![image](./lab01/image021.jpg)
 
-#### Step3: 测试通过CloudFront发布的应用
+#### Step3: 测试通过CloudFront发布的应用<span id = "Step3"></span>
 
 1 - CloudFront distributions 在状态仍处于”in progress”的时候就可以被本地使用了。因为这个状态需要配置发布到所有edge位置以后才会变为deployed. 要验证distribution是否已经可以在本地使用。我们可以用nslookup查询CloudFront域名. 记住dxxxx.cloudfront.net 的名字对于每一个distribution都是唯一的,这是我们需要使用我们自己的distribution value来测试的原因。通过nslookup可以看到CloudFront 为每一个DNS查询返回了不同的IP 。以此来增加应用的弹性。
 
@@ -208,7 +208,7 @@ Firefox 的开发工具显示如下:
 
 ![image](./lab01/image025.jpg)
 
-#### Step4: 测试Invalidations
+#### Step4: 测试Invalidations<span id = "Step4"></span>
 本节，我们会使用invalidation部署最新更新的内容.
 
 如我们前面看到的，主页文件index.html 已经被缓存并产生了CloudFront缓存命中的结果。假设我们必须要更改HTML文件但是不能更改URL来指向新的版本。这时，我们需要把页面invalidate.
@@ -224,7 +224,7 @@ Firefox 的开发工具显示如下:
 
 ![image](./lab01/image028.png)
 
-#### Step5: 配置定制错误页面
+#### Step5: 配置定制错误页面<span id = "Step5"></span>
 
 本节，我们将配置定制错误页面来优雅的处理被请求内容不存在的错误提示。
 制作一个定制错误页面 
@@ -280,7 +280,7 @@ Firefox 的开发工具显示如下:
 
 ![image](./lab01/image035.jpg)
 
-#### Step6: 配置源站组(Origin Group)
+#### Step6: 配置源站组(Origin Group)<span id = "Step6"></span>
 
 本节，我们来配置一个源站组，提供失效故障时的请求重路由。我们可以把源站组和Cache Behavior关联起来。然后把request从主源站路由到第二源站.
 
@@ -341,7 +341,7 @@ Origin Access Identity settings:
 
 ![image](./lab01/image046.jpg)
 
-#### Step7: 结论
+#### Step7: 结论<span id = "Step7"></span>
 
 恭喜！我们已完成 CloudFront 模块的实验室。
 本次实验我们学习了如何创建具有多个源和多个行为的分发，以向您的源提供静态内容和代理 API 动态内容。
