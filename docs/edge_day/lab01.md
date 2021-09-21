@@ -30,6 +30,7 @@ Lab Guide
 介绍
 
 本实验中，我们将学习如何设置一个CloudFront distribution作为一个简单的包含动静态Web应用的前端。Web应用使用S3和EC2搭建，具体如下图。我们将学习如何测试并检查CloudFront送出的特定请求头。最后，我们将会把发布的内容无效化处理，并配置定制的报错页面，以保证友好的失效网页体验。
+
 ![image](./lab01/image001.jpg)
 
 #### Step1: 创建 EC2和S3 源站
@@ -130,6 +131,7 @@ Origin Access Identity settings:
 - Restrict Bucket Access: Yes
 - Origin Access Identity: Create a new Identity
 - Grant Permissions on Bucket: Yes, Update Bucket policy
+
 ![image](./lab01/image012.jpg)
 
 3 – 配置默认的Cache Behavior 如下图:
@@ -139,6 +141,7 @@ Origin Access Identity settings:
 - Object Caching: Customize
 - Minimum TTL: 86400
 - Compress Objects Automatically: Yes
+
 ![image](./lab01/image013.jpg)
 
 4 -在Distributions Settings 中, 配置 Default Root Object 为 index.html 并保持其他设置为默认设置.
@@ -171,6 +174,7 @@ Cache层.
 - Forward Cookies: All
 - Query String Forwarding and Caching: Forward all, cache based on all.
 - Compress Objects Automatically: Yes
+
 ![image](./lab01/image020.png)
 
 9 – 记录General页面的里CloudFront关联distribution的domain name.
@@ -197,9 +201,11 @@ Cache层.
 - x-amz-cf-id CloudFront给每一个request分配的唯一id.
 - x-amz-cf-pop 表示服务特定request的CloudFront edge 位置. 每个edge位置由三个字母和一个指定数字组成。例如, DFW3. 通常是edge location附近的国际机场代码
 - x-cache 表示本请求是否是有命中缓存 或未命中缓存. 通常，本实验中的html 文件, 我们会在后续的访问中得到 ‘Hit from Cloudfront’ 的结果, 但对/api的访问请求总会得到 ‘Miss from CloudFront’ 因为对/api，cache被关闭了.
+
 ![image](./lab01/image024.jpg)
 
 Firefox 的开发工具显示如下:
+
 ![image](./lab01/image025.jpg)
 
 #### Step4: 测试Invalidations
@@ -208,12 +214,14 @@ Firefox 的开发工具显示如下:
 如我们前面看到的，主页文件index.html 已经被缓存并产生了CloudFront缓存命中的结果。假设我们必须要更改HTML文件但是不能更改URL来指向新的版本。这时，我们需要把页面invalidate.
 
 1 – 进入CloudFront Console的Invalidations 页面.
+
 ![image](./lab01/image026.jpg)
 ![image](./lab01/image027.jpg)
 
 2 – 为我们的index.html创建一个invalidation. 由于index.html是默认的root对象，我们可以在Object paths指定 / . invalidation url
 
 3 – 几秒钟过后，再次使用网页开发工具测试。我们会发现有cache miss的结果出现。
+
 ![image](./lab01/image028.png)
 
 #### Step5: 配置定制错误页面
@@ -291,6 +299,7 @@ Origin Access Identity settings:
 - Restrict Bucket Access: Yes
 - Origin Access Identity: Create a new Identity
 - Grant Permissions on Bucket: Yes, Update Bucket policy
+
 ![image](./lab01/image038.jpg)
 
 3- 创建一个new-index.html文件，内容如下。并上传到新的us-west-1上的S3桶.把new-index.html设置为Make public。
@@ -310,21 +319,26 @@ Origin Access Identity settings:
 4- 回到CloudFront distribution ，创建一个新的Origin,指向新创建的us-west-1的S3桶.
 
 - Origin Domain Name: S3桶的网页域名(例如 http://cloudfrontlab-s3bucket-secondary.s3-website-us-west-1.amazonaws.com)
+
 ![image](./lab01/image041.jpg)
 
 5- 创建一个源站组，关联主源站和第二源站。. 在CloudFront Origins and Origin Groups 页面, 点击创建Origin Group.
+
 ![image](./lab01/image042.jpg)
 
 使用 S3-cloudfrontlab-s3bucket as 主源站, 使用 S3-cloudfrontlab-s3bucket-secondary 第二源站. 切换条件，选择404 Not Found 和 403 Forbidden.
+
 ![image](./lab01/image043.jpg)
 
 6- 编辑distribution的默认行为，来使用新的源站组。在CloudFront Behaviors页面,选择Default(*),并点击Edit. 修改源站组的响应行为。
+
 ![image](./lab01/image044.jpg)
 ![image](./lab01/image045.jpg)
 
 测试 
 
 7- distribution status 变为Deployed以后。使用CloudFront url 访问new-index.html。我们可以看到我们的第二个S3桶正确的响应了访问请求。
+
 ![image](./lab01/image046.jpg)
 
 #### Step7: 结论
